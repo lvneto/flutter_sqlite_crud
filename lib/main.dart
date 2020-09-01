@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'SQlite CRUD'),
+      home: MyHomePage(title: 'Cadastrar país, estado e cidade.'),
     );
   }
 }
@@ -44,15 +44,16 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  //int _counter = 0;
 
   Contact _contact = Contact();
   List<Contact> _contacts = [];
   DatabaseHelper _dbHelper;
 
   final _formkey = GlobalKey<FormState>();
-  final _ctrlName = TextEditingController();
-  final _ctrlMobile = TextEditingController();
+  final _ctrlPais = TextEditingController();
+  final _ctrlEstado = TextEditingController();
+  final _ctrlCidade = TextEditingController();
 
   @override
   void initState() {
@@ -97,16 +98,24 @@ class _MyHomePageState extends State<MyHomePage> {
         key: _formkey,
         child: Column(children: <Widget>[
           TextFormField(
-            controller: _ctrlName,
-            decoration: InputDecoration(labelText: 'Nome'),
-            onSaved: (val) => setState(() => _contact.name = val),
+            controller: _ctrlPais,
+            decoration: InputDecoration(labelText: 'País'),
+            onSaved: (val) => setState(() => _contact.pais = val),
             validator: (val) => (val.length == 0 ? 'Preencha o campo' : null),
           ),
           TextFormField(
-            controller: _ctrlMobile,
-            decoration: InputDecoration(labelText: 'Celular'),
-            onSaved: (val) => setState(() => _contact.mobile = val),
-            validator: (val) => (val.length < 11 ? 'Insira 11 dígitos' : null),
+            controller: _ctrlEstado,
+            decoration: InputDecoration(labelText: 'Estado'),
+            onSaved: (val) => setState(() => _contact.estado = val),
+            validator: (val) =>
+                (val.length == 0 ? 'Insira o nome do estado' : null),
+          ),
+          TextFormField(
+            controller: _ctrlCidade,
+            decoration: InputDecoration(labelText: 'Cidade'),
+            onSaved: (val) => setState(() => _contact.cidade = val),
+            validator: (val) =>
+                (val.length == 0 ? 'Insira o nome da cidade' : null),
           ),
           Container(
               margin: EdgeInsets.all(10.0),
@@ -143,8 +152,9 @@ class _MyHomePageState extends State<MyHomePage> {
   _resetForm() {
     setState(() {
       _formkey.currentState.reset();
-      _ctrlName.clear();
-      _ctrlMobile.clear();
+      _ctrlPais.clear();
+      _ctrlEstado.clear();
+      _ctrlCidade.clear();
       _contact.id = null;
     });
   }
@@ -158,14 +168,45 @@ class _MyHomePageState extends State<MyHomePage> {
               return Column(
                 children: <Widget>[
                   ListTile(
+                    isThreeLine: true,
                     leading: Icon(Icons.account_circle,
                         color: darkBlueColor, size: 40.0),
                     title: Text(
-                      _contacts[index].name.toUpperCase(),
+                      _contacts[index].pais.toUpperCase(),
                       style: TextStyle(
-                          color: darkBlueColor, fontWeight: FontWeight.bold),
+                        color: darkBlueColor,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                    subtitle: Text(_contacts[index].mobile),
+                    subtitle: Row(
+                      children: <Widget>[
+                        Text(
+                          ('ESTADO  '),
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            color: darkBlueColor,
+                          ),
+                        ),
+                        Text(
+                          _contacts[index].estado.toUpperCase(),
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 12,
+                          ),
+                        ),
+                        Text(
+                          ('  CIDADE  '),
+                          style: TextStyle(color: darkBlueColor),
+                        ),
+                        Text(
+                          _contacts[index].cidade.toUpperCase(),
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 12,
+                          ),
+                        )
+                      ],
+                    ),
                     trailing: IconButton(
                         icon: Icon(Icons.delete_sweep, color: darkBlueColor),
                         onPressed: () async {
@@ -176,8 +217,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     onTap: () {
                       setState(() {
                         _contact = _contacts[index];
-                        _ctrlName.text = _contacts[index].name;
-                        _ctrlMobile.text = _contacts[index].mobile;
+                        _ctrlPais.text = _contacts[index].pais;
+                        _ctrlEstado.text = _contacts[index].estado;
+                        _ctrlCidade.text = _contacts[index].cidade;
                       });
                     },
                   ),

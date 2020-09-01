@@ -1,23 +1,30 @@
 class Contact {
   static const tblContact = 'contacts';
   static const colId = 'id';
-  static const colName = 'name';
-  static const colMobile = 'mobile';
+  static const colPais = 'pais';
+  static const colEstado = 'estado';
+  static const colCidade = 'cidade';
 
-  Contact({this.id, this.name, this.mobile});
+  Contact({this.id, this.pais, this.estado, this.cidade});
 
   Contact.fromMap(Map<String, dynamic> map) {
     id = map[colId];
-    name = map[colName];
-    mobile = map[colMobile];
+    pais = map[colPais];
+    estado = map[colEstado];
+    cidade = map[colCidade];
   }
 
   int id;
-  String name;
-  String mobile;
+  String pais;
+  String estado;
+  String cidade;
 
   Map<String, dynamic> toMap() {
-    var map = <String, dynamic>{colName: name, colMobile: mobile};
+    var map = <String, dynamic>{
+      colPais: pais,
+      colEstado: estado,
+      colCidade: cidade
+    };
     if (id != null) map[colId] = id;
     return map;
   }

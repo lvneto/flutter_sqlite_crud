@@ -6,7 +6,7 @@ import 'package:path/path.dart';
 import 'package:sqlite_crud/models/contact.dart';
 
 class DatabaseHelper {
-  static const _databaseName = 'ContactData.db';
+  static const _databaseName = 'ContacteData.db';
   static const _databaseVersion = 1;
 
   //singleton class
@@ -31,8 +31,9 @@ class DatabaseHelper {
     await db.execute('''
       CREATE TABLE ${Contact.tblContact}(
         ${Contact.colId} INTEGER PRIMARY KEY AUTOINCREMENT,
-        ${Contact.colName} TEXT NOT NULL,
-        ${Contact.colMobile} TEXT NOT NULL
+        ${Contact.colPais} TEXT NOT NULL,
+        ${Contact.colEstado} TEXT NOT NULL,
+        ${Contact.colCidade} TEXT NOT NULL
       )
     ''');
   }
